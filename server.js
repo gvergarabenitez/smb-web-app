@@ -1,12 +1,10 @@
-import express from 'express';
-import session from 'express-session';
-import multer from 'multer';
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
-import { v4 as uuidv4 } from 'uuid';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const express = require('express');
+const session = require('express-session');
+const multer = require('multer');
+const { readFileSync, writeFileSync, existsSync, mkdirSync } = require('fs');
+const { v4: uuidv4 } = require('uuid');
+const path = require('path');
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 3000;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'smb-admin-2026';
