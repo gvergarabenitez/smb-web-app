@@ -2,3 +2,5 @@ node_modules/
 uploads/
 data/
 .env
+.DS_Store
+Procfile
