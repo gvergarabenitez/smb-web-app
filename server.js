@@ -5,11 +5,34 @@ const { readFileSync, writeFileSync, existsSync, mkdirSync } = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const Anthropic = require('@anthropic-ai/sdk');
+const nodemailer = require('nodemailer');
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+const mailer = nodemailer.createTransport({
+  service: 'gmail',
+  auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_APP_PASSWORD }
+});
+
 // Demo sessions (in-memory, ephemeral)
 const demoSessions = new Map();
+
+async function notificarDemo(demo) {
+  if (!process.env.GMAIL_USER) return;
+  const resumen = demo.history
+    .map((m, i) => `${m.role === 'user' ? '👤 Prospecto' : '🧠 SMB'}: ${m.content}`)
+    .join('\n\n');
+  try {
+    await mailer.sendMail({
+      from: process.env.GMAIL_USER,
+      to: 'g.vergarabenitez@gmail.com',
+      subject: `🧠 Demo SMB completado — ${demo.empresa.substring(0, 50)}`,
+      text: `Un prospecto completó el demo del Smart Mentor Bot.\n\nEMPRESA: ${demo.empresa}\n\n--- CONVERSACIÓN ---\n\n${resumen}\n\n--- PERFIL EXPRESS GENERADO ---\n\n${demo.shocExpress}`
+    });
+  } catch (e) {
+    console.error('Error enviando email notificación:', e.message);
+  }
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -190,6 +213,8 @@ Da respuestas concretas, personalizadas y accionables basadas en este perfil. S�
     const reply = response.content[0].text;
     demo.history.push({ role: 'assistant', content: reply });
     demo.count++;
+
+    if (demo.count >= 5) notificarDemo(demo);
 
     res.json({ reply, count: demo.count, max: 5 });
   } catch (e) {

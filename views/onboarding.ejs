@@ -230,15 +230,53 @@
       <h4>7. Plan seleccionado</h4>
       <div class="row g-3">
         <div class="col-12">
-          <div class="d-flex gap-4 flex-wrap">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="plan" id="planPro" value="SMB Pro - $300.000 CLP/mes + IVA" checked>
-              <label class="form-check-label" for="planPro">SMB Pro — $300.000 CLP/mes + IVA</label>
+          <div class="row g-3">
+
+            <!-- SMB PRO -->
+            <div class="col-md-6">
+              <div class="plan-option" id="cardPro" onclick="selectPlan('pro')">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <input class="form-check-input mt-0" type="radio" name="plan" id="planPro" value="SMB Pro - $300.000 CLP/mes + IVA" checked>
+                  <label class="form-check-label fw-bold" for="planPro" style="cursor:pointer;">SMB Pro</label>
+                  <span class="ms-auto fw-bold" style="color:var(--smb-dark);">$300.000 <small class="fw-normal text-muted">+ IVA/mes</small></span>
+                </div>
+                <div class="plan-detail" id="detailPro">
+                  <hr class="my-2">
+                  <ul class="mb-0 ps-3" style="font-size:0.875rem; color:#555;">
+                    <li>Smart Mentor Bot personalizado en <strong>ChatGPT</strong></li>
+                    <li>Análisis SHoC completo de tu empresa</li>
+                    <li>13 modos de especialización</li>
+                    <li>1 sesión mensual de revisión estratégica</li>
+                    <li>Asesoría de Gonzalo Vergara</li>
+                    <li style="color:#888;">Pago con Flow: <strong>$370.000 CLP</strong> (IVA incl.)</li>
+                  </ul>
+                </div>
+              </div>
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="plan" id="planAdvanced" value="SMB Advanced - $450.000 CLP/mes + IVA">
-              <label class="form-check-label" for="planAdvanced">SMB Advanced — $450.000 CLP/mes + IVA</label>
+
+            <!-- SMB ADVANCED -->
+            <div class="col-md-6">
+              <div class="plan-option" id="cardAdvanced" onclick="selectPlan('advanced')">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <input class="form-check-input mt-0" type="radio" name="plan" id="planAdvanced" value="SMB Advanced - $450.000 CLP/mes + IVA">
+                  <label class="form-check-label fw-bold" for="planAdvanced" style="cursor:pointer;">SMB Advanced</label>
+                  <span class="ms-auto fw-bold" style="color:var(--smb-dark);">$450.000 <small class="fw-normal text-muted">+ IVA/mes</small></span>
+                </div>
+                <div class="plan-detail" id="detailAdvanced" style="display:none;">
+                  <hr class="my-2">
+                  <ul class="mb-0 ps-3" style="font-size:0.875rem; color:#555;">
+                    <li>Todo lo de SMB Pro</li>
+                    <li>Smart Mentor Bot en <strong>Claude</strong> (IA avanzada)</li>
+                    <li>Ejecuta acciones en Gmail, Calendar, Notion y más</li>
+                    <li>13 modos de especialización</li>
+                    <li>Análisis de prospectos en tiempo real</li>
+                    <li>Asesoría de Gonzalo Vergara</li>
+                    <li style="color:#888;">Pago con Flow: <strong>$555.000 CLP</strong> (IVA incl.)</li>
+                  </ul>
+                </div>
+              </div>
             </div>
+
           </div>
         </div>
         <div class="col-12">
@@ -263,6 +301,33 @@
   </div>
 </footer>
 
+<style>
+  .plan-option {
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #fff;
+  }
+  .plan-option.selected {
+    border-color: var(--smb-gold);
+    box-shadow: 0 0 0 3px rgba(201,162,39,0.12);
+  }
+</style>
+<script>
+  function selectPlan(plan) {
+    const isPro = plan === 'pro';
+    document.getElementById('planPro').checked = isPro;
+    document.getElementById('planAdvanced').checked = !isPro;
+    document.getElementById('cardPro').classList.toggle('selected', isPro);
+    document.getElementById('cardAdvanced').classList.toggle('selected', !isPro);
+    document.getElementById('detailPro').style.display = isPro ? 'block' : 'none';
+    document.getElementById('detailAdvanced').style.display = !isPro ? 'block' : 'none';
+  }
+  // Init
+  document.getElementById('cardPro').classList.add('selected');
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
