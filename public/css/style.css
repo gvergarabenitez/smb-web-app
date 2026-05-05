@@ -1,0 +1,159 @@
+:root {
+  --smb-dark: #0f1923;
+  --smb-blue: #1a73e8;
+  --smb-accent: #00c6a7;
+  --smb-light: #f8f9fa;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+}
+
+/* NAV */
+.navbar-smb {
+  background: var(--smb-dark);
+  padding: 1rem 0;
+}
+.navbar-brand img { height: 36px; }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--smb-dark) 0%, #1a2d44 100%);
+  color: #fff;
+  padding: 100px 0 80px;
+}
+.hero h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.2; }
+.hero p.lead { font-size: 1.2rem; opacity: 0.85; max-width: 600px; }
+.hero .badge-neuro {
+  display: inline-block;
+  background: var(--smb-accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+/* BENEFICIOS */
+.beneficios { padding: 80px 0; }
+.beneficio-item { padding: 2rem; border-radius: 12px; background: #f8f9fa; height: 100%; }
+.beneficio-item .icon { font-size: 2rem; margin-bottom: 1rem; }
+.beneficio-item h5 { font-weight: 700; }
+
+/* PLANES */
+.planes { background: var(--smb-light); padding: 80px 0; }
+.plan-card {
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  height: 100%;
+  position: relative;
+}
+.plan-card.featured {
+  border: 2px solid var(--smb-accent);
+  box-shadow: 0 8px 40px rgba(0,198,167,0.15);
+}
+.plan-card .badge-popular {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--smb-accent);
+  color: #fff;
+  padding: 4px 20px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.plan-card .precio { font-size: 2.2rem; font-weight: 800; color: var(--smb-dark); }
+.plan-card .precio span { font-size: 1rem; font-weight: 400; color: #666; }
+.plan-card ul { list-style: none; padding: 0; }
+.plan-card ul li { padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.95rem; }
+.plan-card ul li:before { content: "✓ "; color: var(--smb-accent); font-weight: 700; }
+
+/* BTN */
+.btn-smb {
+  background: var(--smb-accent);
+  color: #fff;
+  font-weight: 700;
+  padding: 14px 32px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+.btn-smb:hover { background: #00a88e; color: #fff; transform: translateY(-1px); }
+.btn-outline-smb {
+  border: 2px solid var(--smb-accent);
+  color: var(--smb-accent);
+  font-weight: 700;
+  padding: 14px 32px;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+.btn-outline-smb:hover { background: var(--smb-accent); color: #fff; }
+
+/* COMO FUNCIONA */
+.como-funciona { padding: 80px 0; }
+.paso { text-align: center; }
+.paso .numero {
+  width: 56px; height: 56px;
+  background: var(--smb-blue);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; font-weight: 800;
+  margin: 0 auto 1rem;
+}
+
+/* FOOTER */
+footer {
+  background: var(--smb-dark);
+  color: rgba(255,255,255,0.6);
+  padding: 40px 0;
+  font-size: 0.9rem;
+  text-align: center;
+}
+footer a { color: var(--smb-accent); text-decoration: none; }
+
+/* ONBOARDING FORM */
+.form-header {
+  background: var(--smb-dark);
+  color: #fff;
+  padding: 60px 0 40px;
+}
+.form-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.form-section h4 {
+  color: var(--smb-dark);
+  font-weight: 700;
+  border-left: 4px solid var(--smb-accent);
+  padding-left: 12px;
+  margin-bottom: 1.5rem;
+}
+.form-label { font-weight: 600; font-size: 0.9rem; }
+.form-text { font-size: 0.8rem; color: #888; }
+
+/* ADMIN */
+.admin-sidebar {
+  background: var(--smb-dark);
+  min-height: 100vh;
+  color: #fff;
+  padding: 2rem 1rem;
+}
+.badge-estado-pendiente { background: #ffc107; color: #000; }
+.badge-estado-en-proceso { background: #0d6efd; }
+.badge-estado-activo { background: #198754; }

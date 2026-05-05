@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Onboarding — Smart Mentor Bot</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body style="background:#f4f6f8;">
+
+<!-- HEADER -->
+<div class="form-header">
+  <div class="container">
+    <p class="text-white-50 mb-1 small">Smart Mentor Bot — Neuroinnova Chile SpA</p>
+    <h1 class="fw-bold">Formulario de Onboarding</h1>
+    <p class="text-white-50 mt-2">Cuéntanos sobre tu empresa. Contesta lo que tengas — lo que no tengas, simplemente escribe "no disponible". El SMB nos ayudará a completar lo que falte.</p>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="container py-5" style="max-width:860px;">
+  <form action="/onboarding" method="POST" enctype="multipart/form-data">
+
+    <!-- SECCIÓN 1: Información General -->
+    <div class="form-section">
+      <h4>1. Información General de la Empresa</h4>
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Nombre de la empresa *</label>
+          <input type="text" name="nombre_empresa" class="form-control" required placeholder="Ej: TechSolutions Ltda.">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">RUT de la empresa</label>
+          <input type="text" name="rut_empresa" class="form-control" placeholder="Ej: 76.123.456-7">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Nombre representante legal</label>
+          <input type="text" name="nombre_representante" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">RUT representante legal</label>
+          <input type="text" name="rut_representante" class="form-control">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Dirección</label>
+          <input type="text" name="direccion" class="form-control" placeholder="Ej: Av. Providencia 1234, Santiago">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Giro de la empresa</label>
+          <input type="text" name="giro" class="form-control" placeholder="Ej: Consultoría en tecnología">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Sector o industria</label>
+          <input type="text" name="sector" class="form-control" placeholder="Ej: Tecnología y Software">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Ubicación principal</label>
+          <input type="text" name="ubicacion" class="form-control" placeholder="Ej: Santiago, Chile">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Año de fundación</label>
+          <input type="text" name="año_fundacion" class="form-control" placeholder="Ej: 2015">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Página web</label>
+          <input type="text" name="web" class="form-control" placeholder="www.miempresa.cl">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Email de contacto *</label>
+          <input type="email" name="email_contacto" class="form-control" required placeholder="contacto@empresa.cl">
+        </div>
+        <div class="col-12">
+          <label class="form-label">Redes sociales</label>
+          <input type="text" name="redes_sociales" class="form-control" placeholder="Ej: Instagram @empresa, LinkedIn: linkedin.com/company/empresa">
+        </div>
+        <div class="col-12">
+          <label class="form-label">Misión</label>
+          <textarea name="mision" class="form-control" rows="2" placeholder="¿Por qué existe tu empresa?"></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Visión</label>
+          <textarea name="vision" class="form-control" rows="2" placeholder="¿Hacia dónde quiere ir tu empresa en 3-5 años?"></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Descripción detallada del negocio</label>
+          <textarea name="descripcion_negocio" class="form-control" rows="4" placeholder="Explica con detalle qué hace tu empresa, cómo lo hace y qué la diferencia de la competencia."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Principales productos o servicios</label>
+          <textarea name="productos_servicios" class="form-control" rows="3" placeholder="Ej: Desarrollo de software a medida, consultoría en transformación digital, implementación de ERP."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Organigrama y estructura organizativa</label>
+          <textarea name="organigrama" class="form-control" rows="2" placeholder="Ej: CEO → Gerente Comercial → 3 vendedores. Describe el equipo y sus roles."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 2: Objetivos -->
+    <div class="form-section">
+      <h4>2. Objetivos y Desafíos</h4>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label">Objetivos principales para los próximos 6-12 meses</label>
+          <textarea name="objetivos" class="form-control" rows="3" placeholder="Ej: Incrementar la facturación en 25%, conseguir 10 nuevos clientes, lanzar un nuevo servicio."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Problemáticas que a tu juicio estás teniendo en tu empresa</label>
+          <textarea name="problematicas" class="form-control" rows="3" placeholder="Ej: No logro salirme de operaciones, el equipo de ventas no tiene un proceso claro, perdemos clientes después del primer mes."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Principales desafíos actuales (que te impiden lograr tus objetivos)</label>
+          <textarea name="desafios" class="form-control" rows="3" placeholder="Ej: Competencia creciente, no sé cómo prospectar, me cuesta comunicar el valor de lo que ofrezco."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Indicadores clave de rendimiento (KPIs)</label>
+          <textarea name="kpis" class="form-control" rows="2" placeholder="Ej: Tasa de conversión de leads, facturación mensual, ticket promedio por cliente."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Plan estratégico (adjuntar si disponible)</label>
+          <input type="file" name="archivo_plan_estrategico" class="form-control" accept=".pdf,.doc,.docx,.ppt,.pptx">
+          <div class="form-text">PDF, Word o PowerPoint. Máx 20MB.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 3: Clientes -->
+    <div class="form-section">
+      <h4>3. Perfil de Clientes y Mercado</h4>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label">Descripción de tu cliente ideal</label>
+          <textarea name="cliente_ideal" class="form-control" rows="4" placeholder="¿Quién es tu cliente ideal? Describe su cargo, tipo de empresa, tamaño, sector, qué busca, qué le preocupa. Entre más detalle mejor."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Segmentos de clientes actuales</label>
+          <textarea name="segmentos_clientes" class="form-control" rows="3" placeholder="¿Con qué tipos de clientes trabajas hoy? Describe cada segmento con sus características."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Principales problemas o 'dolores' que resuelves para tus clientes</label>
+          <textarea name="dolores_clientes" class="form-control" rows="3" placeholder="¿Qué problemas reales soluciona tu producto/servicio? Sé específico."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Feedback e interacciones recurrentes con clientes</label>
+          <textarea name="feedback_clientes" class="form-control" rows="3" placeholder="¿Qué te dicen los clientes con más frecuencia? ¿Qué les encanta? ¿Qué les molesta?"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 4: Estrategia Comercial -->
+    <div class="form-section">
+      <h4>4. Estrategia Comercial y Operativa</h4>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label">Estrategias comerciales actuales</label>
+          <textarea name="estrategias_comerciales" class="form-control" rows="3" placeholder="¿Cómo consigues clientes hoy? ¿Qué canales usas? ¿Tienes un proceso de ventas definido?"></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Procesos internos clave</label>
+          <textarea name="procesos_internos" class="form-control" rows="3" placeholder="Ej: Proceso de onboarding de clientes, proceso de cotización, seguimiento post-venta."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Herramientas digitales utilizadas</label>
+          <textarea name="herramientas" class="form-control" rows="2" placeholder="Ej: CRM HubSpot, WhatsApp Business, Notion, Google Workspace, Mercado Pago."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Manual de políticas internas (adjuntar si disponible)</label>
+          <input type="file" name="archivo_politicas" class="form-control" accept=".pdf,.doc,.docx">
+          <div class="form-text">PDF o Word. Máx 20MB.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 5: Preguntas Frecuentes -->
+    <div class="form-section">
+      <h4>5. Preguntas Frecuentes y Casos de Uso</h4>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label">Principales preguntas que los clientes suelen hacerte</label>
+          <textarea name="preguntas_frecuentes" class="form-control" rows="3" placeholder="Ej: ¿Cuánto cuesta? ¿Cuánto tiempo toma ver resultados? ¿Cómo funciona el proceso?"></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Problemas recurrentes que enfrenta la empresa</label>
+          <textarea name="problemas_recurrentes" class="form-control" rows="3" placeholder="Ej: Baja tasa de cierre, clientes que piden descuentos, propuestas que no se convierten en ventas."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Escenarios en los que el Smart Mentor Bot podría aportarte más valor</label>
+          <textarea name="escenarios_smb" class="form-control" rows="3" placeholder="Ej: Cuando estoy preparando una propuesta comercial, cuando tengo un cliente difícil, cuando quiero diseñar una nueva estrategia."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 6: Expectativas -->
+    <div class="form-section">
+      <h4>6. Expectativas y Datos Financieros</h4>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label">Expectativas clave sobre el Smart Mentor Bot</label>
+          <textarea name="expectativas" class="form-control" rows="3" placeholder="¿Qué esperas lograr con el Smart Mentor Bot en los próximos 6 meses?"></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Criterios de éxito para el proyecto</label>
+          <textarea name="criterios_exito" class="form-control" rows="2" placeholder="Ej: Duplicar la tasa de conversión, cerrar 5 nuevos clientes al mes, tener un proceso de ventas documentado."></textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Proyecciones de crecimiento (opcional)</label>
+          <textarea name="proyecciones" class="form-control" rows="2" placeholder="Ej: Crecer 15% en facturación anual."></textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Estado financiero o datos clave (adjuntar si disponible)</label>
+          <input type="file" name="archivo_financiero" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx">
+          <div class="form-text">PDF, Word o Excel. Máx 20MB.</div>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Observaciones adicionales</label>
+          <textarea name="observaciones" class="form-control" rows="3" placeholder="Cualquier otro dato relevante que quieras compartir."></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Documentos adicionales (hasta 5 archivos)</label>
+          <input type="file" name="archivos_adicionales" class="form-control" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg">
+          <div class="form-text">Presentaciones comerciales, reportes, bases de datos, etc. Máx 20MB por archivo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLAN ELEGIDO -->
+    <div class="form-section">
+      <h4>7. Plan seleccionado</h4>
+      <div class="row g-3">
+        <div class="col-12">
+          <div class="d-flex gap-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="plan" id="planLite" value="SMB Lite - $150.000 CLP/mes + IVA">
+              <label class="form-check-label" for="planLite">SMB Lite — $150.000 CLP/mes + IVA</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="plan" id="planPro" value="SMB Pro - $300.000 CLP/mes + IVA" checked>
+              <label class="form-check-label" for="planPro">SMB Pro — $300.000 CLP/mes + IVA</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="alert alert-info small mb-0">
+            <strong>Siguiente paso:</strong> Una vez enviado este formulario, Gonzalo se pondrá en contacto contigo en las próximas 48 horas hábiles para coordinar el pago y activar tu Smart Mentor Bot.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-smb btn-lg px-5">Enviar formulario →</button>
+      <p class="text-muted small mt-3">Tu información es confidencial y solo será usada para configurar tu Smart Mentor Bot.</p>
+    </div>
+
+  </form>
+</div>
+
+<footer>
+  <div class="container">
+    <p class="mb-0">Smart Mentor Bot — <a href="/">Volver al inicio</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
