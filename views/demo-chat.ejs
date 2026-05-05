@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Smart Mentor Bot — Demo</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --smb-dark: #12193a;
@@ -81,6 +82,13 @@
     }
     .msg-content p { margin: 0 0 0.5rem; }
     .msg-content p:last-child { margin-bottom: 0; }
+    .msg-content h1, .msg-content h2, .msg-content h3 { font-size: 1rem; font-weight: 700; margin: 0.75rem 0 0.4rem; color: #12193a; }
+    .msg-content h1:first-child, .msg-content h2:first-child, .msg-content h3:first-child { margin-top: 0; }
+    .msg-content ul, .msg-content ol { padding-left: 1.4rem; margin: 0.4rem 0 0.5rem; }
+    .msg-content li { margin-bottom: 0.25rem; }
+    .msg-content strong { color: #12193a; }
+    .msg-content hr { border-color: #ddd; margin: 0.75rem 0; }
+    .msg-content code { background: #f0f0f0; padding: 1px 5px; border-radius: 4px; font-size: 0.875rem; }
 
     /* TYPING */
     .typing-dots span {
@@ -225,8 +233,8 @@
     <div class="message-inner">
       <div class="msg-avatar bot-av">🧠</div>
       <div class="msg-content">
-        Hola, soy tu Smart Mentor Bot. Analicé el perfil de tu empresa y estoy listo para trabajar contigo.<br><br>
-        Tienes <strong>5 consultas disponibles</strong> en este demo. Pregúntame sobre estrategia, ventas, clientes, propuestas, diferenciación, o cualquier desafío que estés enfrentando ahora mismo.
+        <p>Hola, soy tu Smart Mentor Bot. Analicé el perfil de tu empresa y estoy listo para trabajar contigo.</p>
+        <p>Tienes <strong>5 consultas disponibles</strong> en este demo. Pregúntame sobre estrategia, ventas, clientes, propuestas, diferenciación, o cualquier desafío que estés enfrentando ahora mismo.</p>
       </div>
     </div>
   </div>
@@ -301,7 +309,9 @@
     const avatar = role === 'user'
       ? `<div class="msg-avatar user-av">Tú</div>`
       : `<div class="msg-avatar bot-av">🧠</div>`;
-    const formatted = text.replace(/\n/g, '<br>');
+    const formatted = role === 'user'
+      ? text.replace(/\n/g, '<br>')
+      : marked.parse(text);
     row.innerHTML = `<div class="message-inner">${avatar}<div class="msg-content">${formatted}</div></div>`;
     chatArea.insertBefore(row, typingRow);
     chatArea.scrollTop = chatArea.scrollHeight;
