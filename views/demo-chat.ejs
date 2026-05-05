@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tu Smart Mentor Bot — Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body { background: #f4f6f8; }
+    .chat-wrapper { max-width: 760px; margin: 0 auto; }
+    .chat-box {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .chat-header {
+      background: var(--smb-dark);
+      color: #fff;
+      padding: 1.2rem 1.5rem;
+      border-bottom: 3px solid var(--smb-gold);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chat-header h5 { margin: 0; font-weight: 700; }
+    .chat-header .badge-demo {
+      background: var(--smb-gold);
+      color: var(--smb-dark);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .chat-messages {
+      padding: 1.5rem;
+      min-height: 320px;
+      max-height: 480px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .msg { display: flex; gap: 0.75rem; align-items: flex-start; }
+    .msg.user { flex-direction: row-reverse; }
+    .msg .avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .msg.bot .avatar { background: var(--smb-dark); color: var(--smb-gold); }
+    .msg.user .avatar { background: var(--smb-gold); color: var(--smb-dark); }
+    .msg .bubble {
+      max-width: 80%;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .msg.bot .bubble { background: #f0f2f5; color: #1a1a2e; border-radius: 4px 12px 12px 12px; }
+    .msg.user .bubble { background: var(--smb-dark); color: #fff; border-radius: 12px 4px 12px 12px; }
+    .chat-input-area {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid #eee;
+      background: #fafafa;
+    }
+    .counter-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.82rem;
+      color: #888;
+    }
+    .counter-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #ddd;
+      transition: background 0.3s;
+    }
+    .counter-dot.used { background: var(--smb-gold); }
+    .cta-box {
+      background: linear-gradient(135deg, var(--smb-dark), var(--smb-navy));
+      color: #fff;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border-top: 3px solid var(--smb-gold);
+    }
+    .cta-box h5 { font-weight: 700; margin-bottom: 0.5rem; }
+    .cta-box p { color: rgba(255,255,255,0.7); font-size: 0.95rem; margin-bottom: 1.25rem; }
+    .typing { display: none; }
+    .typing span {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #aaa;
+      animation: bounce 1.2s infinite;
+    }
+    .typing span:nth-child(2) { animation-delay: 0.2s; }
+    .typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-6px); }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar-smb" style="padding:0.8rem 0; border-bottom:2px solid var(--smb-gold);">
+  <div class="container">
+    <a href="/"><img src="/logo.png" alt="Smart Mentor Bot" style="height:40px;"></a>
+  </div>
+</nav>
+
+<div class="container py-4 chat-wrapper">
+
+  <div class="mb-3">
+    <p class="text-muted small mb-1">Tu Smart Mentor Bot personalizado para <strong><%= demo.empresa.substring(0, 60) %></strong></p>
+    <p class="text-muted small">Tienes <strong>5 consultas gratuitas</strong>. Pregúntale lo que quieras — estrategia, ventas, clientes, propuestas, lo que necesites.</p>
+  </div>
+
+  <div class="chat-box">
+    <div class="chat-header">
+      <div>
+        <h5>Smart Mentor Bot</h5>
+        <span style="font-size:0.8rem; color:rgba(255,255,255,0.6);">Mentor estratégico · Neuroinnova Chile SpA</span>
+      </div>
+      <span class="badge-demo">DEMO</span>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg bot">
+        <div class="avatar">🧠</div>
+        <div class="bubble">
+          Hola, soy tu Smart Mentor Bot. Ya analicé el perfil de tu empresa y estoy listo para ayudarte.<br><br>
+          Tengo <strong>5 consultas disponibles</strong> en este demo. Pregúntame sobre estrategia, ventas, clientes, propuestas, diferenciación — lo que más necesites resolver ahora mismo.
+        </div>
+      </div>
+      <div class="msg bot typing" id="typingIndicator">
+        <div class="avatar">🧠</div>
+        <div class="bubble">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-area" id="inputArea">
+      <div class="counter-bar">
+        <span>Consultas:</span>
+        <% for(let i = 0; i < 5; i++) { %>
+          <div class="counter-dot" id="dot-<%= i %>"></div>
+        <% } %>
+        <span id="counterText">0/5 usadas</span>
+      </div>
+      <div class="d-flex gap-2">
+        <textarea id="userInput" class="form-control" rows="2"
+          placeholder="¿Qué te gustaría preguntarle a tu Smart Mentor Bot?"
+          style="resize:none; font-size:0.95rem;"></textarea>
+        <button id="sendBtn" class="btn btn-smb px-4" style="align-self:flex-end;">Enviar</button>
+      </div>
+      <p class="text-muted small mt-2 mb-0">Presiona Enter para enviar · Shift+Enter para nueva línea</p>
+    </div>
+
+    <div class="cta-box" id="ctaBox" style="display:none;">
+      <h5>¿Quieres que tu Smart Mentor Bot esté disponible siempre?</h5>
+      <p>Esta fue tu experiencia con el demo. Con el plan completo, tu SMB conoce toda tu empresa en profundidad y está disponible 24/7 para cualquier decisión de negocio.</p>
+      <a href="/onboarding" class="btn btn-smb btn-lg me-2">Quiero mi Smart Mentor Bot →</a>
+      <a href="/demo" class="btn btn-outline-smb btn-lg" style="border-color:rgba(255,255,255,0.4);color:#fff;">Volver a empezar</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const sessionId = '<%= sessionId %>';
+  let count = 0;
+  const max = 5;
+
+  const input = document.getElementById('userInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const messages = document.getElementById('chatMessages');
+  const typing = document.getElementById('typingIndicator');
+  const inputArea = document.getElementById('inputArea');
+  const ctaBox = document.getElementById('ctaBox');
+  const counterText = document.getElementById('counterText');
+
+  function updateCounter() {
+    counterText.textContent = `${count}/${max} usadas`;
+    for (let i = 0; i < max; i++) {
+      document.getElementById(`dot-${i}`).classList.toggle('used', i < count);
+    }
+  }
+
+  function addMessage(text, role) {
+    const div = document.createElement('div');
+    div.className = `msg ${role}`;
+    div.innerHTML = `
+      <div class="avatar">${role === 'bot' ? '🧠' : '👤'}</div>
+      <div class="bubble">${text.replace(/\n/g, '<br>')}</div>
+    `;
+    messages.insertBefore(div, typing);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  async function send() {
+    const msg = input.value.trim();
+    if (!msg || count >= max) return;
+
+    input.value = '';
+    input.disabled = true;
+    sendBtn.disabled = true;
+    addMessage(msg, 'user');
+
+    typing.style.display = 'flex';
+    messages.scrollTop = messages.scrollHeight;
+
+    try {
+      const res = await fetch(`/demo/chat/${sessionId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mensaje: msg })
+      });
+      const data = await res.json();
+
+      typing.style.display = 'none';
+
+      if (data.error) {
+        addMessage('Ocurrió un error. Intenta de nuevo.', 'bot');
+      } else {
+        addMessage(data.reply, 'bot');
+        count = data.count;
+        updateCounter();
+
+        if (count >= max) {
+          inputArea.style.display = 'none';
+          ctaBox.style.display = 'block';
+        }
+      }
+    } catch (e) {
+      typing.style.display = 'none';
+      addMessage('Error de conexión. Intenta de nuevo.', 'bot');
+    }
+
+    input.disabled = false;
+    sendBtn.disabled = false;
+    input.focus();
+  }
+
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo — Smart Mentor Bot</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body style="background:#f4f6f8;">
+
+<div class="form-header">
+  <div class="container" style="max-width:720px;">
+    <p class="text-white-50 mb-1 small">Smart Mentor Bot — Demo gratuito</p>
+    <h1 class="fw-bold">Prueba tu Smart Mentor Bot</h1>
+    <p class="mt-2" style="color:rgba(255,255,255,0.7);">Responde 7 preguntas y en segundos tendrás un mentor estratégico personalizado para tu empresa — gratis, sin tarjeta.</p>
+  </div>
+</div>
+
+<div class="container py-5" style="max-width:720px;">
+  <form action="/demo" method="POST">
+
+    <div class="form-section">
+      <h4>Cuéntanos sobre tu empresa</h4>
+      <p class="text-muted small mb-4">Contesta con la mayor honestidad posible — mientras más específico, mejor será tu experiencia con el SMB.</p>
+
+      <div class="mb-4">
+        <label class="form-label">1. ¿Cuál es tu empresa y a qué se dedica? *</label>
+        <textarea name="empresa" class="form-control" rows="3" required
+          placeholder="Ej: Somos DataSmart, consultora de transformación digital para empresas manufactureras medianas. Implementamos ERP y automatizamos procesos."></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">2. ¿A quién le vendes? *</label>
+        <textarea name="cliente_ideal" class="form-control" rows="3" required
+          placeholder="Ej: Gerentes de operaciones y dueños de empresas manufactureras de 50-200 empleados, en Chile y Perú, que tienen procesos manuales y quieren digitalizarse."></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">3. ¿Cuál es el mayor desafío o problema que enfrenta tu empresa hoy? *</label>
+        <textarea name="desafio_principal" class="form-control" rows="3" required
+          placeholder="Ej: No logramos escalar — todo depende de mí. Tenemos buenos clientes pero no un proceso repetible para conseguir más."></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">4. ¿Quiénes son tus competidores directos y sustitutos? ¿Cómo crees que te diferencias de ellos? *</label>
+        <textarea name="competidores" class="form-control" rows="3" required
+          placeholder="Ej: Competimos con SAP y consultoras grandes, pero somos más ágiles y especializados en manufactura. El sustituto es que el cliente no haga nada o lo haga internamente."></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">5. ¿Cómo consigues clientes actualmente? *</label>
+        <textarea name="canales_clientes" class="form-control" rows="2" required
+          placeholder="Ej: Principalmente por referidos y LinkedIn. A veces asistimos a ferias. No tenemos un proceso formal de prospección."></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">6. ¿Qué resultado concreto quieres lograr en los próximos 6 meses? *</label>
+        <textarea name="objetivos" class="form-control" rows="2" required
+          placeholder="Ej: Duplicar nuestra cartera de clientes y tener un proceso de ventas que no dependa solo de mí."></textarea>
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">7. ¿Qué obstáculos o dificultades crees que podrían impedirte lograrlo? *</label>
+        <textarea name="obstaculos" class="form-control" rows="2" required
+          placeholder="Ej: Falta de tiempo, no saber cómo comunicar el valor de lo que hacemos, miedo a contratar sin tener certeza de ventas."></textarea>
+      </div>
+    </div>
+
+    <div class="text-center mt-2">
+      <button type="submit" class="btn btn-smb btn-lg px-5">Activar mi Smart Mentor Bot Demo →</button>
+      <p class="text-muted small mt-3">Gratis · Sin tarjeta · 5 consultas con tu mentor personalizado</p>
+    </div>
+
+  </form>
+</div>
+
+<footer>
+  <div class="container">
+    <p class="mb-0">Smart Mentor Bot — <a href="/">Volver al inicio</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -4,6 +4,12 @@ const multer = require('multer');
 const { readFileSync, writeFileSync, existsSync, mkdirSync } = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
+const Anthropic = require('@anthropic-ai/sdk');
+
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+// Demo sessions (in-memory, ephemeral)
+const demoSessions = new Map();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -94,6 +100,101 @@ app.post('/onboarding', uploadFields, (req, res) => {
 
 app.get('/gracias', (req, res) => {
   res.render('gracias');
+});
+
+// ─── DEMO ROUTES ──────────────────────────────────────────────────────────────
+
+app.get('/demo', (req, res) => {
+  res.render('demo');
+});
+
+app.post('/demo', async (req, res) => {
+  const { empresa, cliente_ideal, desafio_principal, competidores, canales_clientes, objetivos, obstaculos } = req.body;
+
+  const respuestas = `
+1. Empresa y descripción: ${empresa}
+2. Cliente ideal: ${cliente_ideal}
+3. Mayor desafío o problema hoy: ${desafio_principal}
+4. Competidores y diferenciación: ${competidores}
+5. Cómo consigue clientes: ${canales_clientes}
+6. Resultado en 6 meses: ${objetivos}
+7. Obstáculos para lograrlo: ${obstaculos}
+`.trim();
+
+  let shocExpress = '';
+  try {
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 800,
+      messages: [{
+        role: 'user',
+        content: `Eres un experto en Neuroestrategia Aplicada. Basándote en estas respuestas de un prospecto, genera un perfil estratégico express (SHoC Express) en máximo 400 palabras. Incluye: contexto del negocio, cliente ideal, principales dolores y desafíos, competencia y diferenciación, y oportunidades clave. Sé concreto y útil.\n\n${respuestas}`
+      }]
+    });
+    shocExpress = response.content[0].text;
+  } catch (e) {
+    shocExpress = `Empresa: ${empresa}. Cliente ideal: ${cliente_ideal}. Desafío: ${desafio_principal}. Objetivos: ${objetivos}.`;
+  }
+
+  const sessionId = uuidv4();
+  demoSessions.set(sessionId, {
+    empresa,
+    shocExpress,
+    history: [],
+    count: 0,
+    createdAt: Date.now()
+  });
+
+  // Clean old sessions (>2 hours)
+  for (const [id, s] of demoSessions) {
+    if (Date.now() - s.createdAt > 2 * 60 * 60 * 1000) demoSessions.delete(id);
+  }
+
+  res.redirect(`/demo/chat/${sessionId}`);
+});
+
+app.get('/demo/chat/:id', (req, res) => {
+  const demo = demoSessions.get(req.params.id);
+  if (!demo) return res.redirect('/demo');
+  res.render('demo-chat', { demo, sessionId: req.params.id, maxMensajes: 5 });
+});
+
+app.post('/demo/chat/:id', async (req, res) => {
+  const demo = demoSessions.get(req.params.id);
+  if (!demo) return res.json({ error: 'Sesión expirada' });
+  if (demo.count >= 5) return res.json({ error: 'límite alcanzado' });
+
+  const userMessage = req.body.mensaje?.trim();
+  if (!userMessage) return res.json({ error: 'Mensaje vacío' });
+
+  demo.history.push({ role: 'user', content: userMessage });
+
+  const systemPrompt = `Eres el Smart Mentor Bot, un mentor estratégico basado en IA y Neuroestrategia Aplicada, desarrollado por Neuroinnova Chile SpA.
+
+Estás en modo DEMO para la empresa "${demo.empresa}". Tienes acceso a su perfil estratégico express:
+
+---
+${demo.shocExpress}
+---
+
+Da respuestas concretas, personalizadas y accionables basadas en este perfil. Sé directo, no teórico. Máximo 200 palabras por respuesta. Esta es la interacción ${demo.count + 1} de 5 del demo.`;
+
+  try {
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 400,
+      system: systemPrompt,
+      messages: demo.history
+    });
+
+    const reply = response.content[0].text;
+    demo.history.push({ role: 'assistant', content: reply });
+    demo.count++;
+
+    res.json({ reply, count: demo.count, max: 5 });
+  } catch (e) {
+    res.json({ error: 'Error al procesar tu consulta. Intenta de nuevo.' });
+  }
 });
 
 // ─── ADMIN ROUTES ─────────────────────────────────────────────────────────────
