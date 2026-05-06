@@ -21,6 +21,25 @@
   <form action="/demo" method="POST">
 
     <div class="form-section">
+      <h4>Tus datos de contacto</h4>
+      <p class="text-muted small mb-4">Para enviarte el resumen de tu demo y poder hacer seguimiento.</p>
+      <div class="row g-3 mb-2">
+        <div class="col-md-4">
+          <label class="form-label">Nombre completo *</label>
+          <input type="text" name="nombre" class="form-control" required placeholder="Ej: Rodrigo Sánchez">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Correo electrónico *</label>
+          <input type="email" name="email" class="form-control" required placeholder="correo@empresa.cl">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Teléfono / WhatsApp</label>
+          <input type="text" name="telefono" class="form-control" placeholder="+56 9 1234 5678">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
       <h4>Cuéntanos sobre tu empresa</h4>
       <p class="text-muted small mb-4">Contesta con la mayor honestidad posible — mientras más específico, mejor será tu experiencia con el SMB.</p>
 

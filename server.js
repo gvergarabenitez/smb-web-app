@@ -26,8 +26,8 @@ async function notificarDemo(demo) {
     await mailer.sendMail({
       from: process.env.GMAIL_USER,
       to: 'g.vergarabenitez@gmail.com',
-      subject: `🧠 Demo SMB completado — ${demo.empresa.substring(0, 50)}`,
-      text: `Un prospecto completó el demo del Smart Mentor Bot.\n\nEMPRESA: ${demo.empresa}\n\n--- CONVERSACIÓN ---\n\n${resumen}\n\n--- PERFIL EXPRESS GENERADO ---\n\n${demo.shocExpress}`
+      subject: `🧠 Demo SMB completado — ${demo.nombre} (${demo.empresa.substring(0, 40)})`,
+      text: `Un prospecto completó el demo del Smart Mentor Bot.\n\n📋 CONTACTO\nNombre: ${demo.nombre}\nEmail: ${demo.email}\nTeléfono: ${demo.telefono}\nEmpresa: ${demo.empresa}\n\n--- CONVERSACIÓN ---\n\n${resumen}\n\n--- PERFIL EXPRESS GENERADO ---\n\n${demo.shocExpress}`
     });
   } catch (e) {
     console.error('Error enviando email notificación:', e.message);
@@ -132,7 +132,7 @@ app.get('/demo', (req, res) => {
 });
 
 app.post('/demo', async (req, res) => {
-  const { empresa, cliente_ideal, desafio_principal, competidores, canales_clientes, objetivos, obstaculos } = req.body;
+  const { nombre, email, telefono, empresa, cliente_ideal, desafio_principal, competidores, canales_clientes, objetivos, obstaculos } = req.body;
 
   const respuestas = `
 1. Empresa y descripción: ${empresa}
@@ -161,6 +161,9 @@ app.post('/demo', async (req, res) => {
 
   const sessionId = uuidv4();
   demoSessions.set(sessionId, {
+    nombre: nombre || 'Sin nombre',
+    email: email || '',
+    telefono: telefono || '',
     empresa,
     shocExpress,
     history: [],
