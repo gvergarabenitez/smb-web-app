@@ -232,10 +232,7 @@
   <div class="message-row assistant">
     <div class="message-inner">
       <div class="msg-avatar bot-av">🧠</div>
-      <div class="msg-content">
-        <p>Hola, soy tu Smart Mentor Bot. Analicé el perfil de tu empresa y estoy listo para trabajar contigo.</p>
-        <p>Tienes <strong>5 consultas disponibles</strong> en este demo. Pregúntame sobre estrategia, ventas, clientes, propuestas, diferenciación, o cualquier desafío que estés enfrentando ahora mismo.</p>
-      </div>
+      <div class="msg-content" id="primerMensaje"></div>
     </div>
   </div>
 
@@ -273,8 +270,8 @@
 <!-- CTA -->
 <div class="cta-area" id="ctaArea">
   <div class="cta-inner">
-    <h5>¿Quieres que tu Smart Mentor Bot esté disponible siempre?</h5>
-    <p>Acabas de ver el demo. El producto completo conoce toda tu empresa en profundidad, ejecuta acciones y está disponible 24/7 para cualquier decisión de negocio.</p>
+    <h5>Esto fue el 5% de lo que hace el Smart Mentor Bot real</h5>
+    <p>El producto completo analiza toda tu empresa en profundidad, te guía paso a paso en cada decisión, ejecuta acciones en Gmail, Calendar y Notion, y está disponible 24/7 — entrenado específicamente para tu negocio.</p>
     <a href="/onboarding" class="btn-primary-smb">Quiero mi Smart Mentor Bot →</a>
     <a href="/demo" class="btn-secondary-smb">Volver a empezar</a>
   </div>
@@ -283,7 +280,11 @@
 <script>
   const sessionId = '<%= sessionId %>';
   let count = 0;
-  const max = 5;
+  const max = <%= max %>;
+
+  // Render primer mensaje de impacto
+  const primerTexto = <%- JSON.stringify(demo.primerMensaje) %>;
+  document.getElementById('primerMensaje').innerHTML = marked.parse(primerTexto);
 
   const chatArea = document.getElementById('chatArea');
   const typingRow = document.getElementById('typingRow');

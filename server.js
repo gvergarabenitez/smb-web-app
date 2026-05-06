@@ -132,31 +132,62 @@ app.get('/demo', (req, res) => {
 });
 
 app.post('/demo', async (req, res) => {
-  const { nombre, email, telefono, empresa, cliente_ideal, desafio_principal, competidores, canales_clientes, objetivos, obstaculos } = req.body;
+  const { nombre, email, telefono, web, empresa, cliente_ideal, desafio_principal, competidores, canales_clientes, objetivos, obstaculos } = req.body;
 
   const respuestas = `
 1. Empresa y descripción: ${empresa}
-2. Cliente ideal: ${cliente_ideal}
-3. Mayor desafío o problema hoy: ${desafio_principal}
-4. Competidores y diferenciación: ${competidores}
-5. Cómo consigue clientes: ${canales_clientes}
-6. Resultado en 6 meses: ${objetivos}
-7. Obstáculos para lograrlo: ${obstaculos}
+2. Web: ${web || 'no indicada'}
+3. Cliente ideal: ${cliente_ideal}
+4. Mayor desafío o problema hoy: ${desafio_principal}
+5. Competidores y diferenciación: ${competidores}
+6. Cómo consigue clientes: ${canales_clientes}
+7. Resultado en 6 meses: ${objetivos}
+8. Obstáculos para lograrlo: ${obstaculos}
 `.trim();
+
+  const systemBase = `Eres el Smart Mentor Bot, una herramienta de mentoría estratégica basada en IA y Neuroestrategia Aplicada, desarrollada por Neuroinnova Chile SpA. No eres una IA genérica — eres un mentor especializado con metodología propia.
+
+Tienes 13 modos de especialización: Estratega Comercial, Neuroestrategia, Prospección Inteligente, Cierre de Ventas, Propuesta de Valor, NeuroCopywriting, Análisis de Competencia, Mapa Estratégico, Misiones, Desafío Comercial, Identidad CEO, Planificación Estratégica, y Documentación de Procesos.
+
+Tu metodología central es el Modelo SHoC (Sujeto, Hábitat, Obstáculos, Conducta) — un framework neuroestratégico que analiza cómo toman decisiones reales los clientes, no suposiciones.
+
+Cuando respondas:
+- Sé directo, concreto y accionable
+- Menciona qué modo estás usando cuando sea relevante
+- Muestra que conoces la empresa específica del usuario
+- Da pasos concretos, no teoría genérica
+- Cuando corresponda, indica qué haría el producto completo que el demo no puede mostrar`;
 
   let shocExpress = '';
   try {
-    const response = await anthropic.messages.create({
+    const r1 = await anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 800,
+      max_tokens: 900,
       messages: [{
         role: 'user',
-        content: `Eres un experto en Neuroestrategia Aplicada. Basándote en estas respuestas de un prospecto, genera un perfil estratégico express (SHoC Express) en máximo 400 palabras. Incluye: contexto del negocio, cliente ideal, principales dolores y desafíos, competencia y diferenciación, y oportunidades clave. Sé concreto y útil.\n\n${respuestas}`
+        content: `Eres un experto en Neuroestrategia Aplicada. Basándote en estas respuestas, genera un perfil estratégico express (SHoC Express) en máximo 500 palabras. Incluye: contexto del negocio, cliente ideal, dolores y desafíos reales, análisis de competencia, oportunidades clave y riesgos críticos.\n\n${respuestas}`
       }]
     });
-    shocExpress = response.content[0].text;
+    shocExpress = r1.content[0].text;
   } catch (e) {
     shocExpress = `Empresa: ${empresa}. Cliente ideal: ${cliente_ideal}. Desafío: ${desafio_principal}. Objetivos: ${objetivos}.`;
+  }
+
+  // Primer mensaje de impacto automático
+  let primerMensaje = '';
+  try {
+    const r2 = await anthropic.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 700,
+      system: systemBase,
+      messages: [{
+        role: 'user',
+        content: `Preséntate brevemente como Smart Mentor Bot a este prospecto. Demuestra que ya analizaste su empresa usando el Modelo SHoC. Menciona 2-3 patrones críticos que detectaste en su negocio específico. Indica que tienes 13 modos de especialización disponibles. Termina preguntando cuál es el desafío más urgente que quieren resolver hoy. Sé directo e impactante — en máximo 200 palabras. No uses saludos genéricos.\n\nPerfil de la empresa:\n${shocExpress}`
+      }]
+    });
+    primerMensaje = r2.content[0].text;
+  } catch (e) {
+    primerMensaje = `Analicé el perfil de **${empresa}** usando el Modelo SHoC. Tengo 13 modos de especialización disponibles para ti. ¿Cuál es el desafío más urgente que quieres resolver hoy?`;
   }
 
   const sessionId = uuidv4();
@@ -164,8 +195,11 @@ app.post('/demo', async (req, res) => {
     nombre: nombre || 'Sin nombre',
     email: email || '',
     telefono: telefono || '',
+    web: web || '',
     empresa,
     shocExpress,
+    systemBase,
+    primerMensaje,
     history: [],
     count: 0,
     createdAt: Date.now()
@@ -182,7 +216,7 @@ app.post('/demo', async (req, res) => {
 app.get('/demo/chat/:id', (req, res) => {
   const demo = demoSessions.get(req.params.id);
   if (!demo) return res.redirect('/demo');
-  res.render('demo-chat', { demo, sessionId: req.params.id, maxMensajes: 5 });
+  res.render('demo-chat', { demo, sessionId: req.params.id, max: 5 });
 });
 
 app.post('/demo/chat/:id', async (req, res) => {
@@ -195,20 +229,20 @@ app.post('/demo/chat/:id', async (req, res) => {
 
   demo.history.push({ role: 'user', content: userMessage });
 
-  const systemPrompt = `Eres el Smart Mentor Bot, un mentor estratégico basado en IA y Neuroestrategia Aplicada, desarrollado por Neuroinnova Chile SpA.
+  const systemPrompt = `${demo.systemBase}
 
-Estás en modo DEMO para la empresa "${demo.empresa}". Tienes acceso a su perfil estratégico express:
+Estás en modo DEMO para la empresa "${demo.empresa}". Perfil estratégico (SHoC Express):
 
 ---
 ${demo.shocExpress}
 ---
 
-Da respuestas concretas, personalizadas y accionables basadas en este perfil. Sé directo, no teórico. Máximo 200 palabras por respuesta. Esta es la interacción ${demo.count + 1} de 5 del demo.`;
+Esta es la interacción ${demo.count + 1} de 5 del demo. Da respuestas concretas, personalizadas y accionables. Cuando sea útil, indica qué modo de especialización estás usando. Si el usuario pregunta algo que el producto completo haría mejor (más profundidad, ejecución de acciones, etc.), menciónalo brevemente al final.`;
 
   try {
     const response = await anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 400,
+      max_tokens: 900,
       system: systemPrompt,
       messages: demo.history
     });
