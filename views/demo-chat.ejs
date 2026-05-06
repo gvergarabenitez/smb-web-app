@@ -324,7 +324,11 @@
       : marked.parse(text);
     row.innerHTML = `<div class="message-inner">${avatar}<div class="msg-content">${formatted}</div></div>`;
     chatArea.insertBefore(row, typingRow);
-    chatArea.scrollTop = chatArea.scrollHeight;
+    if (role === 'assistant') {
+      row.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      chatArea.scrollTop = chatArea.scrollHeight;
+    }
   }
 
   async function send() {
