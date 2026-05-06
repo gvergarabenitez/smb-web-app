@@ -235,20 +235,24 @@
             <!-- SMB PRO -->
             <div class="col-md-6">
               <div class="plan-option" id="cardPro" onclick="selectPlan('pro')">
-                <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="d-flex align-items-center gap-2 mb-1">
                   <input class="form-check-input mt-0" type="radio" name="plan" id="planPro" value="SMB Pro - $300.000 CLP/mes + IVA" checked>
-                  <label class="form-check-label fw-bold" for="planPro" style="cursor:pointer;">SMB Pro</label>
-                  <span class="ms-auto fw-bold" style="color:var(--smb-dark);">$300.000 <small class="fw-normal text-muted">+ IVA/mes</small></span>
+                  <label class="form-check-label fw-bold fs-6" for="planPro" style="cursor:pointer;">SMB Pro</label>
                 </div>
+                <p class="text-muted mb-2" style="font-size:0.8rem;">Tu mentor estratégico siempre disponible — en ChatGPT</p>
+                <div class="d-flex align-items-baseline gap-2 mb-1">
+                  <span style="font-size:1.4rem; font-weight:800; color:var(--smb-dark);">$300.000</span>
+                  <span class="text-muted" style="font-size:0.8rem;">+ IVA / mes · Transferencia bancaria</span>
+                </div>
+                <div class="mb-2" style="font-size:0.8rem; color:#888;">Con tarjeta vía Flow: $311.000 + IVA/mes</div>
                 <div class="plan-detail" id="detailPro">
                   <hr class="my-2">
-                  <ul class="mb-0 ps-3" style="font-size:0.875rem; color:#555;">
-                    <li>Smart Mentor Bot personalizado en <strong>ChatGPT</strong></li>
-                    <li>Análisis SHoC completo de tu empresa</li>
-                    <li>13 modos de especialización</li>
-                    <li>1 sesión mensual de revisión estratégica</li>
-                    <li>Asesoría de Gonzalo Vergara</li>
-                    <li style="color:#888;">Pago con Flow: <strong>$370.000 CLP</strong> (IVA incl.)</li>
+                  <ul class="mb-0 ps-3" style="font-size:0.85rem; color:#444; line-height:1.7;">
+                    <li><strong>Análisis SHoC completo</strong> de tu empresa — entiende quién es tu cliente ideal y qué lo mueve a comprar</li>
+                    <li><strong>13 modos de especialización</strong> — estrategia comercial, NeuroCopywriting, análisis de prospectos, propuestas, planificación y más</li>
+                    <li>Disponible <strong>24/7</strong> en ChatGPT — cuando lo necesitas, no cuando tu asesor tiene hora</li>
+                    <li><strong>1 sesión mensual</strong> de revisión estratégica con Gonzalo Vergara</li>
+                    <li>Alguien con quien <strong>pensar el negocio</strong> — con foco, con orden, con confianza</li>
                   </ul>
                 </div>
               </div>
@@ -257,21 +261,26 @@
             <!-- SMB ADVANCED -->
             <div class="col-md-6">
               <div class="plan-option" id="cardAdvanced" onclick="selectPlan('advanced')">
-                <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="d-flex align-items-center gap-2 mb-1">
                   <input class="form-check-input mt-0" type="radio" name="plan" id="planAdvanced" value="SMB Advanced - $450.000 CLP/mes + IVA">
-                  <label class="form-check-label fw-bold" for="planAdvanced" style="cursor:pointer;">SMB Advanced</label>
-                  <span class="ms-auto fw-bold" style="color:var(--smb-dark);">$450.000 <small class="fw-normal text-muted">+ IVA/mes</small></span>
+                  <label class="form-check-label fw-bold fs-6" for="planAdvanced" style="cursor:pointer;">SMB Advanced</label>
+                  <span class="ms-auto" style="font-size:0.7rem; background:#c9a227; color:#12193a; padding:2px 8px; border-radius:20px; font-weight:700;">MÁS PODEROSO</span>
                 </div>
+                <p class="text-muted mb-2" style="font-size:0.8rem;">Tu mentor que no solo aconseja — también ejecuta acciones</p>
+                <div class="d-flex align-items-baseline gap-2 mb-1">
+                  <span style="font-size:1.4rem; font-weight:800; color:var(--smb-dark);">$450.000</span>
+                  <span class="text-muted" style="font-size:0.8rem;">+ IVA / mes · Transferencia bancaria</span>
+                </div>
+                <div class="mb-2" style="font-size:0.8rem; color:#888;">Con tarjeta vía Flow: $466.000 + IVA/mes</div>
                 <div class="plan-detail" id="detailAdvanced" style="display:none;">
                   <hr class="my-2">
-                  <ul class="mb-0 ps-3" style="font-size:0.875rem; color:#555;">
+                  <ul class="mb-0 ps-3" style="font-size:0.85rem; color:#444; line-height:1.7;">
                     <li>Todo lo de SMB Pro</li>
-                    <li>Smart Mentor Bot en <strong>Claude</strong> (IA avanzada)</li>
-                    <li>Ejecuta acciones en Gmail, Calendar, Notion y más</li>
-                    <li>13 modos de especialización</li>
-                    <li>Análisis de prospectos en tiempo real</li>
-                    <li>Asesoría de Gonzalo Vergara</li>
-                    <li style="color:#888;">Pago con Flow: <strong>$555.000 CLP</strong> (IVA incl.)</li>
+                    <li>Smart Mentor Bot en <strong>Claude</strong> — la IA más avanzada disponible hoy</li>
+                    <li><strong>Ejecuta acciones reales</strong> — redacta y envía emails, crea eventos, actualiza tu Notion, agenda reuniones</li>
+                    <li><strong>Análisis de prospectos en tiempo real</strong> — sabe quién es, qué lo mueve y cómo acercarse antes de la reunión</li>
+                    <li>Paso a paso accionable para <strong>cada decisión importante</strong> de tu negocio</li>
+                    <li>Asesoría mensual con Gonzalo Vergara</li>
                   </ul>
                 </div>
               </div>
@@ -288,7 +297,10 @@
     </div>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-smb btn-lg px-5">Enviar formulario →</button>
+      <button type="submit" id="submitBtn" class="btn btn-lg px-5 fw-bold" style="background:#22c55e; color:#fff; border-radius:10px; font-size:1.05rem; padding:14px 40px; border:none; box-shadow:0 4px 16px rgba(34,197,94,0.3);">
+        <span id="btnText">Enviar formulario →</span>
+        <span id="btnLoading" style="display:none;"><span class="spinner-border spinner-border-sm me-2" role="status"></span>Enviando...</span>
+      </button>
       <p class="text-muted small mt-3">Tu información es confidencial y solo será usada para configurar tu Smart Mentor Bot.</p>
     </div>
 
@@ -325,8 +337,12 @@
     document.getElementById('detailPro').style.display = isPro ? 'block' : 'none';
     document.getElementById('detailAdvanced').style.display = !isPro ? 'block' : 'none';
   }
-  // Init
   document.getElementById('cardPro').classList.add('selected');
+  document.querySelector('form').addEventListener('submit', function() {
+    document.getElementById('btnText').style.display = 'none';
+    document.getElementById('btnLoading').style.display = 'inline';
+    document.getElementById('submitBtn').disabled = true;
+  });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
