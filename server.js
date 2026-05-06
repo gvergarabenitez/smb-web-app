@@ -5,26 +5,22 @@ const { readFileSync, writeFileSync, existsSync, mkdirSync } = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const Anthropic = require('@anthropic-ai/sdk');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
-const mailer = nodemailer.createTransport({
-  service: 'gmail',
-  auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_APP_PASSWORD }
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Demo sessions (in-memory, ephemeral)
 const demoSessions = new Map();
 
 async function notificarDemo(demo) {
-  if (!process.env.GMAIL_USER) return;
+  if (!process.env.RESEND_API_KEY) return;
   const resumen = demo.history
-    .map((m, i) => `${m.role === 'user' ? '👤 Prospecto' : '🧠 SMB'}: ${m.content}`)
+    .map(m => `${m.role === 'user' ? '👤 Prospecto' : '🧠 SMB'}: ${m.content}`)
     .join('\n\n');
   try {
-    await mailer.sendMail({
-      from: process.env.GMAIL_USER,
+    await resend.emails.send({
+      from: 'Smart Mentor Bot <onboarding@resend.dev>',
       to: 'g.vergarabenitez@gmail.com',
       subject: `🧠 Demo SMB completado — ${demo.nombre} (${demo.empresa.substring(0, 40)})`,
       text: `Un prospecto completó el demo del Smart Mentor Bot.\n\n📋 CONTACTO\nNombre: ${demo.nombre}\nEmail: ${demo.email}\nTeléfono: ${demo.telefono}\nEmpresa: ${demo.empresa}\n\n--- CONVERSACIÓN ---\n\n${resumen}\n\n--- PERFIL EXPRESS GENERADO ---\n\n${demo.shocExpress}`
