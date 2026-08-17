@@ -143,7 +143,7 @@ app.post('/demo', async (req, res) => {
 
   const systemBase = `Eres el Smart Mentor Bot, una herramienta de mentoría estratégica basada en IA y Neuroestrategia Aplicada, desarrollada por Neuroinnova Chile SpA. No eres una IA genérica — eres un mentor especializado con metodología propia.
 
-Tienes 13 modos de especialización: Estratega Comercial, Neuroestrategia, Prospección Inteligente, Cierre de Ventas, Propuesta de Valor, NeuroCopywriting, Análisis de Competencia, Mapa Estratégico, Misiones, Desafío Comercial, Identidad CEO, Planificación Estratégica, y Documentación de Procesos.
+Tienes 17 modos de especialización: Estratega Comercial, Neuroestrategia, Prospección Inteligente, Cierre de Ventas, Propuesta de Valor, NeuroCopywriting, Análisis de Competencia, Mapa Estratégico, Misiones, Desafío Comercial, Identidad CEO, Planificación Estratégica, y Documentación de Procesos.
 
 Tu metodología central es el Modelo SHoC (Sujeto, Hábitat, Obstáculos, Conducta) — un framework neuroestratégico que analiza cómo toman decisiones reales los clientes, no suposiciones.
 
@@ -178,12 +178,12 @@ Cuando respondas:
       system: systemBase,
       messages: [{
         role: 'user',
-        content: `Preséntate brevemente como Smart Mentor Bot a este prospecto. Demuestra que ya analizaste su empresa usando el Modelo SHoC. Menciona 2-3 patrones críticos que detectaste en su negocio específico. Indica que tienes 13 modos de especialización disponibles. Termina preguntando cuál es el desafío más urgente que quieren resolver hoy. Sé directo e impactante — en máximo 200 palabras. No uses saludos genéricos.\n\nPerfil de la empresa:\n${shocExpress}`
+        content: `Preséntate brevemente como Smart Mentor Bot a este prospecto. Demuestra que ya analizaste su empresa usando el Modelo SHoC. Menciona 2-3 patrones críticos que detectaste en su negocio específico. Indica que tienes 17 modos de especialización disponibles. Termina preguntando cuál es el desafío más urgente que quieren resolver hoy. Sé directo e impactante — en máximo 200 palabras. No uses saludos genéricos.\n\nPerfil de la empresa:\n${shocExpress}`
       }]
     });
     primerMensaje = r2.content[0].text;
   } catch (e) {
-    primerMensaje = `Analicé el perfil de **${empresa}** usando el Modelo SHoC. Tengo 13 modos de especialización disponibles para ti. ¿Cuál es el desafío más urgente que quieres resolver hoy?`;
+    primerMensaje = `Analicé el perfil de **${empresa}** usando el Modelo SHoC. Tengo 17 modos de especialización disponibles para ti. ¿Cuál es el desafío más urgente que quieres resolver hoy?`;
   }
 
   const sessionId = uuidv4();
@@ -225,21 +225,25 @@ app.post('/demo/chat/:id', async (req, res) => {
 
   demo.history.push({ role: 'user', content: userMessage });
 
-  const systemPrompt = `${demo.systemBase}
+  // Split system prompt: static block (cacheable) vs dynamic block (turn number changes each turn)
+  const staticSystemBlock = `${demo.systemBase}
 
 Estás en modo DEMO para la empresa "${demo.empresa}". Perfil estratégico (SHoC Express):
 
 ---
 ${demo.shocExpress}
----
+---`;
 
-Esta es la interacción ${demo.count + 1} de 5 del demo. Da respuestas concretas, personalizadas y accionables. Cuando sea útil, indica qué modo de especialización estás usando. Si el usuario pregunta algo que el producto completo haría mejor (más profundidad, ejecución de acciones, etc.), menciónalo brevemente al final.`;
+  const dynamicSystemBlock = `Esta es la interacción ${demo.count + 1} de 5 del demo. Da respuestas concretas, personalizadas y accionables. Cuando sea útil, indica qué modo de especialización estás usando. Si el usuario pregunta algo que el producto completo haría mejor, menciónalo brevemente al final.`;
 
   try {
     const response = await anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 900,
-      system: systemPrompt,
+      system: [
+        { type: 'text', text: staticSystemBlock, cache_control: { type: 'ephemeral' } },
+        { type: 'text', text: dynamicSystemBlock }
+      ],
       messages: demo.history
     });
 
